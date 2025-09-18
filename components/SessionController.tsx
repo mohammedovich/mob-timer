@@ -25,9 +25,23 @@ export default function SessionController() {
   <>
     <EngineerList />
     <TimerSelector />
-    <button onClick={startSession} className="btn btn-start mt-4">
-      Start Mob Session
+    <button
+      onClick={startSession}
+      disabled={selectedEngineers.length === 0}
+      className={`
+        mt-4 w-full py-3 text-white font-bold text-lg rounded-lg shadow-lg
+        transition-all duration-200 transform hover:scale-105 active:scale-95
+        focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-700
+        ${
+          selectedEngineers.length === 0
+            ? 'bg-gray-400 cursor-not-allowed'
+            : 'bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600'
+        }
+      `}
+    >
+      ▶️ Start Mob Session ({selectedEngineers.length})
     </button>
+
   </>
 ) : (
   <div>
