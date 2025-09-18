@@ -5,7 +5,7 @@ import type { EngineersData } from '../types';
 export default function TimerSelector() {
   const { selectedTime, setSelectedTime } = useSessionContext();
   const data = require('../data/engineers.json') as EngineersData;
-  const times = data.defaultTimes;
+  const times = data.defaultTimes  ?? [];
 
   return (
     <div className="mb-6">

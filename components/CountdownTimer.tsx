@@ -37,9 +37,18 @@ export default function CountdownTimer({ duration, onEnd }: CountdownTimerProps)
   const handlePause = () => setIsActive((prev) => !prev);
   const handleReset = () => setTimeLeft(duration * 60);
 
+  // Inside CountdownTimer.tsx, onEnd:
+  // onEnd={() => {
+  //   if (soundEnabled) {
+  //     const audio = new Audio('/alert.mp3');
+  //     audio.play().catch(() => console.warn('Audio play failed (user interaction needed?)'));
+  //   }
+  //   alert("Time's up! Rotate roles.");
+  // }}
+
   return (
-    <div className="mt-6 p-4 border rounded bg-red-50">
-      <h3 className="text-lg font-bold text-red-700">Session Timer</h3>
+    <div className="mt-6 p-4 border rounded bg-slate-500">
+      <h3 className="text-lg font-bold text-red-500">Session Timer</h3>
       <p className="text-4xl font-mono mt-2">{formatTime(timeLeft)}</p>
       <div className="mt-3 space-x-2">
         <button onClick={handlePause} className="btn btn-primary">

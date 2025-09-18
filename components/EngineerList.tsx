@@ -1,29 +1,73 @@
+// components/EngineerList.tsx
 'use client';
+
+import { useState } from 'react';
 import { useSessionContext } from './SessionContext';
-import type { EngineersData } from '../types';
 
 export default function EngineerList() {
-  const { selectedEngineers, toggleEngineer } = useSessionContext();
-  const data = require('../data/engineers.json') as EngineersData;
-  const { engineers } = data;
+  const {
+    availableEngineers,
+    selectedEngineers,
+    toggleEngineer,
+    addEngineer,
+    removeEngineer,
+  } = useSessionContext();
+
+  const [newName, setNewName] = useState('');
+
+  const handleAdd = () => {
+    const success = addEngineer(newName);
+    if (success) {
+      setNewName('');
+    } else {
+      alert('Please enter a valid, unique name.');
+    }
+  };
 
   return (
     <div className="mb-6">
       <h2 className="text-xl font-semibold mb-3">Select Engineers</h2>
-      <ul className="space-y-2">
-        {engineers.map((name) => (
-          <li key={name} className="list-item">
-            <input
-              type="checkbox"
-              id={`eng-${name}`}
-              checked={selectedEngineers.includes(name)}
-              onChange={() => toggleEngineer(name)}
-              className="checkbox"
-            />
-            <label htmlFor={`eng-${name}`}>{name}</label>
+
+      <ul className="space-y-2 mb-4">
+        {availableEngineers.map((name) => (
+          <li key={name} className="list-item justify-between">
+            <div className="flex items-center space-x-3">
+              <input
+                type="checkbox"
+                id={`eng-${name}`}
+                checked={selectedEngineers.includes(name)}
+                onChange={() => toggleEngineer(name)}
+                className="checkbox"
+              />
+              <label htmlFor={`eng-${name}`}>{name}</label>
+            </div>
+            <button
+              onClick={() => removeEngineer(name)}
+              className="text-red-500 hover:text-red-700 text-sm"
+            >
+              ✕
+            </button>
           </li>
         ))}
       </ul>
+
+      {/* Add New Engineer */}
+      <div className="flex gap-2 mt-4">
+        <input
+          type="text"
+          value={newName}
+          onChange={(e) => setNewName(e.target.value)}
+          placeholder="New engineer name"
+          className="flex-grow border rounded px-3 py-1 text-sm"
+          onKeyDown={(e) => e.key === 'Enter' && handleAdd()}
+        />
+        <button
+          onClick={handleAdd}
+          className="btn btn-primary text-sm"
+        >
+          Add
+        </button>
+      </div>
     </div>
   );
 }
