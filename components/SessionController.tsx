@@ -20,7 +20,7 @@ export default function SessionController() {
   } = useSessionContext();
 
   return (
-    <div>
+    <div className="container max-w-2xl mx-auto">
       {!sessionStarted ? (
   <>
     <EngineerList />
@@ -62,8 +62,7 @@ export default function SessionController() {
         );
         alert('Team copied to clipboard!');
       }}
-      className="btn btn-primary mt-2 text-sm"
-    >
+      className="btn btn-primary mt-2 text-sm">
       📋 Copy Team
     </button>
     <RoleAssignment />
@@ -76,8 +75,7 @@ export default function SessionController() {
           );
           alert('Team and roles copied!');
         }}
-        className="btn btn-primary mt-2 text-sm"
-      >
+        className="btn btn-primary mt-2 text-sm">
         📋 Copy Team & Roles
       </button>
     <HistoryPanel />

@@ -45,9 +45,9 @@ const SessionContext = createContext<SessionContextType | undefined>(undefined);
 
 export function SessionProvider({ children }: { children: ReactNode }) {
   const config = getEngineersConfig();
-  const savedHistory = localStorage.getItem('sessionHistory');
-  const savedTheme = (localStorage.getItem('theme') as Theme) || 'light';
-  const savedSound = localStorage.getItem('soundEnabled') !== 'false'; // default true
+  const savedHistory = typeof window !== 'undefined' ? localStorage.getItem('sessionHistory') : null;
+  const savedTheme = typeof window !== 'undefined' ? (localStorage.getItem('theme') as Theme) || 'light' : 'light';
+  const savedSound = typeof window !== 'undefined' ? localStorage.getItem('soundEnabled') !== 'false' : true; // default true
 
   const [availableEngineers, setAvailableEngineers] = useState<Engineer[]>(config.engineers);
   const [selectedEngineers, setSelectedEngineers] = useState<Engineer[]>([]);

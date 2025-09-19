@@ -47,8 +47,8 @@ export default function CountdownTimer({ duration, onEnd }: CountdownTimerProps)
   // }}
 
   return (
-    <div className="mt-6 p-4 border rounded bg-slate-500">
-      <h3 className="text-lg font-bold text-red-500">Session Timer</h3>
+    <div className="mt-6 p-4 border rounded">
+      <h3 className="text-lg font-bold">Session Timer</h3>
       <p className="text-4xl font-mono mt-2">{formatTime(timeLeft)}</p>
       <div className="mt-3 space-x-2">
         <button onClick={handlePause} className="btn btn-primary">

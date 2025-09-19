@@ -1,5 +1,6 @@
 // app/layout.tsx
 import './globals.css';
+import ThemeRegistry from './ThemeRegistry';
 
 export default function RootLayout({
   children,
@@ -7,8 +8,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="light"> {/* class will be updated by JS */}
-      <body>{children}</body>
+    <html lang="en">
+      <body>
+        <ThemeRegistry>
+          {children}
+        </ThemeRegistry>
+      </body>
     </html>
   );
 }

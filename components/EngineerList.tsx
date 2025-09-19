@@ -1,7 +1,7 @@
 // components/EngineerList.tsx
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSessionContext } from './SessionContext';
 
 export default function EngineerList() {
@@ -14,6 +14,22 @@ export default function EngineerList() {
   } = useSessionContext();
 
   const [newName, setNewName] = useState('');
+  const [isClient, setIsClient] = useState(false);
+
+
+    // Prevent SSR mismatch
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return (
+      <div className="mb-6">
+        <h2 className="text-xl font-semibold mb-3">Select Engineers</h2>
+        <p className="text-sm text-gray-500">Loading...</p>
+      </div>
+    );
+  }
 
   const handleAdd = () => {
     const success = addEngineer(newName);

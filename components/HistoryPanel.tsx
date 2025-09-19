@@ -6,14 +6,14 @@ import { format } from 'date-fns';
 export default function HistoryPanel() {
   const { history } = useSessionContext();
 
-  if (history.length === 0) return <p className="text-sm text-gray-500">No session history yet.</p>;
+  if (history.length === 0) return <p className="text-sm --history text-gray-500">No session history yet.</p>;
 
   return (
     <div className="mt-6">
       <h3 className="text-lg font-semibold mb-2">🕒 Recent Sessions</h3>
       <ul className="space-y-2 max-h-60 overflow-y-auto">
         {history.map((entry) => (
-          <li key={entry.id} className="p-3 border rounded bg-gray-50 dark:bg-gray-700 text-sm">
+          <li key={entry.id} className="p-3 border rounded text-sm">
             <p>
               <strong>Team:</strong> {entry.team.join(', ')}
             </p>
