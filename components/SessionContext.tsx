@@ -215,18 +215,18 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   );
 }
 
-const assignRoles = (team: Engineer[]): Record<Engineer, 'Driver' | 'Navigator' | 'Observer'> => {
-  const roles: Record<Engineer, 'Driver' | 'Navigator' | 'Observer'> = {};
-  if (team.length === 0) return roles;
+// const assignRoles = (team: Engineer[]): Record<Engineer, 'Driver' | 'Navigator' | 'Observer'> => {
+//   const roles: Record<Engineer, 'Driver' | 'Navigator' | 'Observer'> = {};
+//   if (team.length === 0) return roles;
 
-  const shuffled = [...team].sort(() => 0.5 - Math.random());
-  roles[shuffled[0]] = 'Driver';
-  if (shuffled[1]) roles[shuffled[1]] = 'Navigator';
-  for (let i = 2; i < shuffled.length; i++) {
-    roles[shuffled[i]] = 'Observer';
-  }
-  return roles;
-};
+//   const shuffled = [...team].sort(() => 0.5 - Math.random());
+//   roles[shuffled[0]] = 'Driver';
+//   if (shuffled[1]) roles[shuffled[1]] = 'Navigator';
+//   for (let i = 2; i < shuffled.length; i++) {
+//     roles[shuffled[i]] = 'Observer';
+//   }
+//   return roles;
+// };
 
 export const useSessionContext = (): SessionContextType => {
   const context = useContext(SessionContext);

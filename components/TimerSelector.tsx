@@ -1,11 +1,19 @@
 'use client';
 import { useSessionContext } from './SessionContext';
+import { useEffect, useState } from 'react';
 import type { EngineersData } from '../types';
 
 export default function TimerSelector() {
   const { selectedTime, setSelectedTime } = useSessionContext();
-  const data = require('../data/engineers.json') as EngineersData;
-  const times = data.defaultTimes  ?? [];
+  const [times, setTimes] = useState<number[]>([]);
+
+  useEffect(() => {
+    const loadTimes = async () => {
+      const data: EngineersData = (await import('../data/engineers.json')).default;
+      setTimes(data.defaultTimes ?? []);
+    };
+    loadTimes();
+  }, []);
 
   return (
     <div className="mb-6">
