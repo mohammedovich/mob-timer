@@ -15,6 +15,16 @@
   }
 }
 
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+  
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
 /* Smooth color transitions */
 * {
   transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow;
