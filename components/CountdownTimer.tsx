@@ -160,7 +160,7 @@ export default function CountdownTimer({ duration, onEnd }: CountdownTimerProps)
   const isPaused = !isActive;
 
   return (
-    <div className="mt-6 p-5 border-4 rounded-xl bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-black shadow-lg transition-all duration-300">
+    <div className="mt-6 p-5 border-4 rounded-xl bg-gradient-to-b shadow-lg transition-all duration-300">
       {/* Timer Display */}
       <div
         className={`
