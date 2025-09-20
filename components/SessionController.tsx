@@ -1,4 +1,3 @@
-// components/SessionController.tsx
 'use client';
 
 import { useSessionContext } from './SessionContext';
@@ -7,6 +6,8 @@ import TimerSelector from './TimerSelector';
 import CountdownTimer from './CountdownTimer';
 import RoleAssignment from './RoleAssignment';
 import HistoryPanel from './HistoryPanel';
+import SettingsModal from './SettingsModel';
+import Toast from './Toast';
 
 export default function SessionController() {
   const {
@@ -17,6 +18,10 @@ export default function SessionController() {
     startSession,
     resetSession,
     currentRoles,
+    openSettings,
+    closeSettings,
+    showToast,
+    toast,
   } = useSessionContext();
 
   return (
@@ -25,6 +30,28 @@ export default function SessionController() {
   <>
     <EngineerList />
     <TimerSelector />
+    <SettingsModal />
+    <Toast
+        show={toast.show}
+        message={toast.message}
+        type={toast.type}
+        onClose={() => showToast('', 'success')} // Just hides
+    />
+    <button
+      onClick={openSettings}
+      className="
+        fixed top-4 right-4
+        w-12 h-12
+        flex items-center justify-center
+        text-xl
+        bg-blue-600 hover:bg-blue-700
+        text-white rounded-full
+        shadow-lg
+        transition-transform duration-200 hover:scale-105
+        focus:outline-none focus:ring-4 focus:ring-blue-300
+        z-50" aria-label="Open settings">
+      ⚙️
+    </button>
     <button
       onClick={startSession}
       disabled={selectedEngineers.length === 0}
@@ -37,8 +64,7 @@ export default function SessionController() {
             ? 'bg-gray-400 cursor-not-allowed'
             : 'bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600'
         }
-      `}
-    >
+      `}>
       ▶️ Start Mob Session ({selectedEngineers.length})
     </button>
 

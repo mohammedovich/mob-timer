@@ -90,3 +90,13 @@ h1 {
 .animate-float:hover {
   animation-play-state: paused;
 }
+
+@keyframes wiggle {
+  0% { transform: rotate(-2deg); }
+  50% { transform: rotate(2deg); }
+  100% { transform: rotate(-2deg); }
+}
+
+.animate-wiggle {
+  animation: wiggle 0.7s ease-in-out infinite;
+}

@@ -51,13 +51,9 @@ export default function ThemeRegistry({ children }: { children: React.ReactNode 
             bg-white dark:bg-gray-800
             text-gray-800 dark:text-yellow-200
             border-gray-300 dark:border-gray-600
-            hover:scale-110 hover:shadow-lg
-          "
-          aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-        >
+            hover:scale-110 hover:shadow-lg" aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}>
           {theme === 'light' ? '🌙' : '☀️'}
         </button>
-
         {children}
       </div>
     </>

@@ -20,6 +20,8 @@ type SessionState = {
   theme: Theme;
   settingsOpen: boolean;
   soundEnabled: boolean;
+  messageTheme: 'default' | 'pirate' | 'robot' | 'hacker' | 'dino';
+  toast: { show: boolean; message: string; type: 'success' | 'error' | 'info' };
 };
 
 type SessionActions = {
@@ -37,9 +39,12 @@ type SessionActions = {
   closeSettings: () => void;
   toggleSound: () => void;
   clearHistory: () => void;
+  setMessageTheme: (theme: MessageTheme) => void;
+  showToast: (msg: string, type?: 'success' | 'error' | 'info') => void;
 };
 
 export type SessionContextType = SessionState & SessionActions;
+type MessageTheme = 'default' | 'pirate' | 'robot' | 'hacker' | 'dino';
 
 const SessionContext = createContext<SessionContextType | undefined>(undefined);
 
@@ -59,6 +64,16 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<Theme>(savedTheme);
   const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
   const [soundEnabled, setSoundEnabled] = useState<boolean>(savedSound);
+  const [messageTheme, setMessageTheme] = useState<MessageTheme>('default');
+  const [toast, setToast] = useState<{
+    show: boolean;
+    message: string;
+    type: 'success' | 'error' | 'info';
+  }>({
+    show: false,
+    message: '',
+    type: 'success',
+  });
 
   // Apply theme to document
   useEffect(() => {
@@ -86,6 +101,15 @@ export function SessionProvider({ children }: { children: ReactNode }) {
         ? prev.filter((n) => n !== name)
         : [...prev, name]
     );
+  };
+
+  const showToast = (message: string, type: 'success' | 'error' | 'info' = 'success') => {
+    setToast({ show: true, message, type }); // Trigger re-render
+
+    // Auto-hide after 3s
+    setTimeout(() => {
+      setToast((prev) => ({ ...prev, show: false })); // Copy to trigger update
+    }, 3000);
   };
 
   const assignRoles = (team: Engineer[]): Record<Engineer, 'Driver' | 'Navigator' | 'Observer'> => {
@@ -193,6 +217,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     theme,
     settingsOpen,
     soundEnabled,
+    messageTheme,
     toggleEngineer,
     startSession,
     resetSession,
@@ -206,6 +231,9 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     closeSettings,
     toggleSound,
     clearHistory,
+    setMessageTheme,
+    showToast,
+    toast
   };
 
   return (
@@ -214,19 +242,6 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     </SessionContext.Provider>
   );
 }
-
-// const assignRoles = (team: Engineer[]): Record<Engineer, 'Driver' | 'Navigator' | 'Observer'> => {
-//   const roles: Record<Engineer, 'Driver' | 'Navigator' | 'Observer'> = {};
-//   if (team.length === 0) return roles;
-
-//   const shuffled = [...team].sort(() => 0.5 - Math.random());
-//   roles[shuffled[0]] = 'Driver';
-//   if (shuffled[1]) roles[shuffled[1]] = 'Navigator';
-//   for (let i = 2; i < shuffled.length; i++) {
-//     roles[shuffled[i]] = 'Observer';
-//   }
-//   return roles;
-// };
 
 export const useSessionContext = (): SessionContextType => {
   const context = useContext(SessionContext);
