@@ -1,11 +1,11 @@
 {
   "engineers": [
-    "Alice",
-    "Bob",
-    "Charlie",
-    "Diana",
-    "Evan",
-    "Fiona"
+    "Amara",
+    "Kenji",
+    "Zahra",
+    "Alejandro",
+    "Lerato",
+    "Mohammed"
   ],
-  "defaultTimes": [1, 5, 10, 15, 20]
+  "defaultTimes": [5, 10, 15, 20]
 }

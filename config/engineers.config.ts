@@ -1,7 +1,7 @@
 // config/engineers.config.ts
 
 let engineersData = {
-  engineers: ['Alice', 'Bob', 'Charlie', 'Diana', 'Evan', 'Fiona'] as string[],
+  engineers: ['Amara', 'Kenji', 'Nawal', 'Alejandro', 'Lerato', 'Mohammed'] as string[],
   defaultTimes: [5, 10, 15, 20] as number[],
 };
 
