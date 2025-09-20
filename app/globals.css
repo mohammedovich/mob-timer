@@ -69,3 +69,24 @@ h1 {
 .checkbox {
   @apply w-5 h-5 text-blue-600 rounded focus:ring-blue-500 dark:ring-offset-gray-800;
 }
+
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.animate-float {
+  animation: float 2.5s ease-in-out infinite;
+}
+
+/* Optional: Add hover behavior */
+.animate-float:hover {
+  animation-play-state: paused;
+}
