@@ -8,6 +8,7 @@ import RoleAssignment from './RoleAssignment';
 import HistoryPanel from './HistoryPanel';
 import SettingsModal from './SettingsModel';
 import Toast from './Toast';
+import Link from 'next/link';
 
 export default function SessionController() {
   const {
@@ -19,7 +20,6 @@ export default function SessionController() {
     resetSession,
     currentRoles,
     openSettings,
-    closeSettings,
     showToast,
     toast,
   } = useSessionContext();
@@ -111,6 +111,11 @@ export default function SessionController() {
     </button>
   </div>
 )}
+      <p className="text-center mt-4 text-sm">
+        <Link href="/" className="ml-4 text-blue-600 hover:underline">
+          ← Back to Home
+        </Link>
+      </p>
     </div>
   );
 }

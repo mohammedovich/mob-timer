@@ -2,7 +2,6 @@
 
 import { useSessionContext } from './SessionContext';
 import { useState } from 'react';
-import Toast from './Toast';
 import {
   Sun,
   Moon,
@@ -29,7 +28,6 @@ export default function SettingsModal() {
     importConfig,
     messageTheme,
     setMessageTheme,
-    toast,
     showToast,
   } = useSessionContext();
 

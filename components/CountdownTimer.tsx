@@ -12,7 +12,7 @@ interface CountdownTimerProps {
 // Themed Messages
 const themedMessages: Record<string, ((m: number, s: number) => string)[]> = {
   default: [
-    (m, s) => `${m} min left — keep going!`,
+    (m) => `${m} min left — keep going!`,
     () => "Keep calm and pair on.",
     () => "No bugs were harmed… yet.",
     () => "Is this the driver or the backseat coder?",
@@ -59,9 +59,6 @@ const themedMessages: Record<string, ((m: number, s: number) => string)[]> = {
     () => "Debugging like it’s 99 million BC",
   ],
 };
-
-const interpolate = (str: string, vars: Record<string, any>) =>
-  str.replace(/\$\{(\w+)\}/g, (_, key) => vars[key]);
 
 const getThemedMessage = (minutes: number, seconds: number, theme: string) => {
   const pool = themedMessages[theme] || themedMessages.default;
