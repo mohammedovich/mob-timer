@@ -1,6 +1,7 @@
 // app/layout.tsx
 import './globals.css';
 import ThemeRegistry from './ThemeRegistry';
+import { Analytics } from '@vercel/analytics/react';
 
 export default function RootLayout({
   children,
@@ -12,6 +13,7 @@ export default function RootLayout({
       <body>
         <ThemeRegistry>
           {children}
+          <Analytics />
         </ThemeRegistry>
       </body>
     </html>
