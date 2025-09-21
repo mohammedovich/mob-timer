@@ -22,6 +22,7 @@ type SessionState = {
   soundEnabled: boolean;
   messageTheme: 'default' | 'pirate' | 'robot' | 'hacker' | 'dino';
   toast: { show: boolean; message: string; type: 'success' | 'error' | 'info' };
+  driverQueue: Engineer[];
 };
 
 type SessionActions = {
@@ -41,6 +42,13 @@ type SessionActions = {
   clearHistory: () => void;
   setMessageTheme: (theme: MessageTheme) => void;
   showToast: (msg: string, type?: 'success' | 'error' | 'info') => void;
+  nextEngineers: string[];
+  setCurrentEngineers: (engineers: string[]) => void;
+  setCurrentRoles: (roles: Record<string, 'Driver' | 'Navigator' | 'Observer'>) => void;
+  setNextEngineers: (engineers: string[]) => void;
+  setLastDriver: (driver: string | null) => void;
+  assignRoles: (team: string[], lastDriver: string | null) => Record<string, string>;
+  setDriverQueue: (queue: string[] | ((prev: string[]) => string[])) => void;
 };
 
 export type SessionContextType = SessionState & SessionActions;
@@ -51,15 +59,18 @@ const SessionContext = createContext<SessionContextType | undefined>(undefined);
 export function SessionProvider({ children }: { children: ReactNode }) {
   const config = getEngineersConfig();
   const savedHistory = typeof window !== 'undefined' ? localStorage.getItem('sessionHistory') : null;
-  const savedTheme = typeof window !== 'undefined' ? (localStorage.getItem('theme') as Theme) || 'light' : 'dark';
+  const savedTheme = typeof window !== 'undefined' ? (localStorage.getItem('theme') as Theme) || 'light' : 'light';
   const savedSound = typeof window !== 'undefined' ? localStorage.getItem('soundEnabled') !== 'false' : true; // default true
 
   const [availableEngineers, setAvailableEngineers] = useState<Engineer[]>(config.engineers);
   const [selectedEngineers, setSelectedEngineers] = useState<Engineer[]>([]);
+  const [nextEngineers, setNextEngineers] = useState<Engineer[]>([]);
   const [selectedTime, setSelectedTime] = useState<number>(5);
   const [sessionStarted, setSessionStarted] = useState<boolean>(false);
   const [currentEngineers, setCurrentEngineers] = useState<Engineer[]>([]);
   const [currentRoles, setCurrentRoles] = useState<Record<Engineer, 'Driver' | 'Navigator' | 'Observer'>>({});
+  const [lastDriver, setLastDriver] = useState<string | null>(null);
+  const [driverQueue, setDriverQueue] = useState<Engineer[]>([]);
   const [history, setHistory] = useState<SessionHistoryEntry[]>(savedHistory ? JSON.parse(savedHistory) : []);
   const [theme, setTheme] = useState<Theme>(savedTheme);
   const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
@@ -95,6 +106,11 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     localStorage.setItem('soundEnabled', String(soundEnabled));
   }, [soundEnabled]);
 
+  useEffect(() => {
+    // Initialize queue on load or selection
+    setDriverQueue(selectedEngineers.sort(() => 0.5 - Math.random()));
+  }, [selectedEngineers]);
+
   const toggleEngineer = (name: Engineer) => {
     setSelectedEngineers((prev) =>
       prev.includes(name)
@@ -112,43 +128,31 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     }, 3000);
   };
 
-  const assignRoles = (team: Engineer[]): Record<Engineer, 'Driver' | 'Navigator' | 'Observer'> => {
-    const roles: Record<Engineer, 'Driver' | 'Navigator' | 'Observer'> = {};
-    if (team.length === 0) return roles;
-
-    // Random shuffle
-    const shuffled = [...team].sort(() => 0.5 - Math.random());
-    roles[shuffled[0]] = 'Driver';
-    if (shuffled[1]) roles[shuffled[1]] = 'Navigator';
-    for (let i = 2; i < shuffled.length; i++) {
-      roles[shuffled[i]] = 'Observer';
-    }
-    return roles;
-  };
-
   const startSession = () => {
-    if (selectedEngineers.length === 0) {
-      alert('Please select at least one engineer.');
-      return;
-    }
+    if (selectedEngineers.length === 0) return;
 
-    const team = [...selectedEngineers].sort(() => 0.5 - Math.random()).slice(0, 3);
-    const roles = assignRoles(team);
+    // Shuffle once for fairness
+    const shuffled = [...selectedEngineers].sort(() => 0.5 - Math.random());
 
-    setCurrentEngineers(team);
+    // Use shuffled list as rotating queue
+    setDriverQueue(shuffled);
+
+    const roles = assignRoles(shuffled);
+
+    setCurrentEngineers(shuffled);
     setCurrentRoles(roles);
     setSessionStarted(true);
 
-    // Add to history
+    // Save to history
     const entry: SessionHistoryEntry = {
       id: Date.now().toString(),
-      team,
+      team: shuffled,
       roles,
       duration: selectedTime,
       timestamp: Date.now(),
     };
     setHistory((prev) => [entry, ...prev]);
-  };
+  }
 
   const resetSession = () => {
     setSessionStarted(false);
@@ -233,7 +237,15 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     clearHistory,
     setMessageTheme,
     showToast,
-    toast
+    toast,
+    nextEngineers,
+    setCurrentEngineers,
+    setNextEngineers,
+    setLastDriver,
+    assignRoles,
+    setCurrentRoles,
+    driverQueue,
+    setDriverQueue
   };
 
   return (
@@ -242,6 +254,41 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     </SessionContext.Provider>
   );
 }
+
+ // Helper to assign roles
+export const assignRoles = (
+  team: string[],
+  lastDriver: string | null = null
+): Record<string, 'Driver' | 'Navigator' | 'Observer'> => {
+  const roles: Record<string, 'Driver' | 'Navigator' | 'Observer'> = {};
+  if (team.length === 0) return roles;
+
+  // Shuffle team
+  const shuffled = [...team].sort(() => 0.5 - Math.random());
+
+  // Prevent same driver twice
+  let driverIndex = 0;
+  if (lastDriver && shuffled[0] === lastDriver && shuffled.length > 1) {
+    driverIndex = 1; // pick second person
+  }
+
+  roles[shuffled[driverIndex]] = 'Driver';
+
+  // Assign navigator (skip driver)
+  if (team.length > 1) {
+    const navIndex = (driverIndex + 1) % shuffled.length;
+    roles[shuffled[navIndex]] = 'Navigator';
+  }
+
+  // Assign observers
+  for (let i = 0; i < shuffled.length; i++) {
+    if (!roles[shuffled[i]]) {
+      roles[shuffled[i]] = 'Observer';
+    }
+  }
+
+  return roles;
+};
 
 export const useSessionContext = (): SessionContextType => {
   const context = useContext(SessionContext);
