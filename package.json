@@ -4,6 +4,18 @@
   "private": true,
   "license": "MIT",
   "author": "Mohammed Ibrahim <mohammedovich@hotmail.co.uk>"
+  "homepage": "https://mob-timer.vercel.app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mohammedovich/mob-timer.git"
+  },
+  "keywords": [
+    "mob-programming",
+    "pair-programming",
+    "timer",
+    "developer-tools",
+    "team-collaboration"
+  ],
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
