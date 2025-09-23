@@ -1,4 +1,4 @@
-# 🤝 Mob Programming Timer – Fair & Fun Pairing
+# 🤝 Mob Programming Timer – Fair & Fun Pairing [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 > **A lightweight, delightful tool to rotate roles fairly during mob or pair programming sessions.**
 >
@@ -73,7 +73,6 @@ If you find this useful, consider:
 - 🧑‍💻 Contributing improvements
 - 🔐 All changes require an approved pull request. 
 - ☕ [Buying me a coffee](https://buymeacoffee.com/mohammedovich) (optional but appreciated!)
-
 ---
 
 Made with ❤️ for better collaboration.
