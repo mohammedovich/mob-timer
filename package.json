@@ -2,6 +2,8 @@
   "name": "mob-timer",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
+  "author": "Mohammed Ibrahim <mohammedovich@hotmail.co.uk>"
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
