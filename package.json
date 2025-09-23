@@ -4,6 +4,7 @@
   "private": true,
   "license": "MIT",
   "author": "Mohammed Ibrahim <mohammedovich@hotmail.co.uk>",
+  "description": "A simple and effective mob programming timer to help teams collaborate and stay focused during coding sessions.",
   "homepage": "https://mob-timer.vercel.app",
   "repository": {
     "type": "git",
