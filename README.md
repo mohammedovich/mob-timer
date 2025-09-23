@@ -71,6 +71,7 @@ If you find this useful, consider:
 
 - ⭐ Starring this repo
 - 🧑‍💻 Contributing improvements
+- 🔐 All changes require an approved pull request. 
 - ☕ [Buying me a coffee](https://buymeacoffee.com/mohammedovich) (optional but appreciated!)
 
 ---
