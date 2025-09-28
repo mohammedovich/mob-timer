@@ -11,18 +11,12 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <div className="font-sans">
-      {/* Nav */}
       <nav className="border-b">
         <div className="mx-auto max-w-6xl px-6 h-14 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2 font-extrabold">
-              {/* <img src="/favicon.ico" alt="pairwise.dev" className="h-6 w-6" /> */}
               <Image src="/favicon.ico" className='h-6 w-6"' alt="pairwise.dev" width={24} height={24} />
               <span>pairwise.dev</span>
           </Link>
-          {/* <a href="/" className="flex items-center gap-2 font-extrabold">
-            <img src="/favicon.ico" alt="pairwise.dev" className="h-6 w-6" />
-            <span>pairwise.dev</span>
-          </a> */}
           <div className="flex items-center gap-3">
             <div className="hidden sm:flex items-center gap-4 text-sm">
               <a href="#features" className="hover:underline">Features</a>
@@ -154,21 +148,6 @@ export default function Home() {
               Try it now →
             </a>
           </div>
-        </div>
-      </section>
-
-      {/* Social proof */}
-      <section className="py-16 px-6">
-        <div className="mx-auto max-w-4xl text-center">
-          <figure className="rounded-2xl border p-6 md:p-8 shadow-sm">
-            <blockquote className="text-lg md:text-xl">
-              “We shaved minutes off every rotation and kept the energy high.
-              The team actually <em>asks</em> to use it now.”
-            </blockquote>
-            <figcaption className="mt-4 text-sm opacity-80">
-              — Senior Engineer, Fintech team of 8
-            </figcaption>
-          </figure>
         </div>
       </section>
 
