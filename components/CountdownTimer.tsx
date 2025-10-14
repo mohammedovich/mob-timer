@@ -26,6 +26,12 @@ export default function CountdownTimer({ duration, onEnd }: CountdownTimerProps)
     return () => clearInterval(interval);
   }, [timeLeft, isActive]);
 
+  const playSound = () => {
+    if (!soundEnabled) return;
+    const audio = new Audio('/sounds/sound-01.mp3');
+    audio.play().catch(() => console.warn('Audio play failed'));
+  };
+
   useEffect(() => {
     if (timeLeft <= 0 && isActive) {
       setIsActive(false);
@@ -48,13 +54,7 @@ export default function CountdownTimer({ duration, onEnd }: CountdownTimerProps)
 
       return () => clearTimeout(resetTimer);
     }
-  }, [timeLeft, isActive, duration, onEnd]);
-
-  const playSound = () => {
-    if (!soundEnabled) return;
-    const audio = new Audio('/sounds/sound-01.mp3');
-    audio.play().catch(() => console.warn('Audio play failed'));
-  };
+  }, [timeLeft, isActive, duration, onEnd, playSound]);
 
   const triggerConfetti = () => {
     confetti({

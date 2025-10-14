@@ -70,7 +70,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   const [sessionStarted, setSessionStarted] = useState<boolean>(false);
   const [currentEngineers, setCurrentEngineers] = useState<Engineer[]>([]);
   const [currentRoles, setCurrentRoles] = useState<Record<Engineer, 'Driver' | 'Navigator' | 'Observer'>>({});
-  const [lastDriver, setLastDriver] = useState<string | null>(null);
+  const [, setLastDriver] = useState<string | null>(null);
   const [driverQueue, setDriverQueue] = useState<Engineer[]>([]);
   const [history, setHistory] = useState<SessionHistoryEntry[]>(savedHistory ? JSON.parse(savedHistory) : []);
   const [theme, setTheme] = useState<Theme>(savedTheme);
@@ -221,7 +221,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
       const newRoles: Record<string, 'Driver' | 'Navigator' | 'Observer'> = {
         [newDriver]: 'Driver',
         [navigator]: 'Navigator',
-        ...(observer && { [observer]: 'Observer' as 'Observer' })
+        ...(observer && { [observer]: 'Observer' as const })
       };
 
       setCurrentEngineers([newDriver, navigator, ...(observer ? [observer] : [])]);
