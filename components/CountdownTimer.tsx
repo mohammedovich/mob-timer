@@ -14,7 +14,7 @@ export default function CountdownTimer({ duration, onEnd }: CountdownTimerProps)
   const [isActive, setIsActive] = useState(true);
   const [message, setMessage] = useState<string>('');
 
-  const { soundEnabled } = useSessionContext();
+  const { soundEnabled, skipToNext } = useSessionContext();
 
   useEffect(() => {
     if (!isActive || timeLeft <= 0) return;
@@ -85,9 +85,8 @@ export default function CountdownTimer({ duration, onEnd }: CountdownTimerProps)
     <div className="mt-6 p-5 border-4 rounded-xl shadow-lg">
       {/* Timer */}
       <div
-        className={`text-center font-mono text-5xl font-bold mb-3 ${
-          isUrgent ? 'text-red-600 animate-pulse' : 'text-blue-700 dark:text-blue-400'
-        }`}
+        className={`text-center font-mono text-5xl font-bold mb-3 ${isUrgent ? 'text-red-600 animate-pulse' : 'text-blue-700 dark:text-blue-400'
+          }`}
       >
         {formatTime(timeLeft)}
       </div>
@@ -109,15 +108,23 @@ export default function CountdownTimer({ duration, onEnd }: CountdownTimerProps)
       <div className="mt-4 flex flex-wrap gap-2 justify-center">
         <button
           onClick={handlePause}
-          className={`px-4 py-1.5 rounded-full font-medium text-white ${
-            !isActive ? 'bg-green-500 hover:bg-green-600' : 'bg-yellow-500 hover:bg-yellow-600'
-          }`}>
+          className={`px-4 py-1.5 rounded-full font-medium text-white ${!isActive ? 'bg-green-500 hover:bg-green-600' : 'bg-yellow-500 hover:bg-yellow-600'
+            }`}>
           {isActive ? '⏸️ Pause' : '▶️ Resume'}
         </button>
         <button
           onClick={handleReset}
           className="px-4 py-1.5 bg-gray-500 hover:bg-gray-600 text-white rounded-full font-medium">
           ♻️ Reset
+        </button>
+        <button
+          onClick={skipToNext}
+          className="
+          mt-4 w-full py-2 px-4
+          bg-orange-500 hover:bg-orange-600 text-white
+          rounded font-medium transition
+          flex items-center justify-center space-x-2">
+          ⏭️ <span>Skip to Next Engineer</span>
         </button>
       </div>
     </div>

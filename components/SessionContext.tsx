@@ -49,6 +49,7 @@ type SessionActions = {
   setLastDriver: (driver: string | null) => void;
   assignRoles: (team: string[], lastDriver: string | null) => Record<string, string>;
   setDriverQueue: (queue: string[] | ((prev: string[]) => string[])) => void;
+  skipToNext: () => void;
 };
 
 export type SessionContextType = SessionState & SessionActions;
@@ -204,6 +205,34 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
   };
 
+  const skipToNext = () => {
+    setDriverQueue((prev) => {
+      if (prev.length <= 1) return prev;
+
+      const [currentDriver, ...rest] = prev;
+      const newQueue = [...rest, currentDriver]; // Move current to end
+
+      // Reassign roles with new driver
+      const newDriver = newQueue[0];
+      const available = selectedEngineers.filter(e => e !== newDriver);
+      const navigator = available[0];
+      const observer = available[1];
+
+      const newRoles: Record<string, 'Driver' | 'Navigator' | 'Observer'> = {
+        [newDriver]: 'Driver',
+        [navigator]: 'Navigator',
+        ...(observer && { [observer]: 'Observer' as 'Observer' })
+      };
+
+      setCurrentEngineers([newDriver, navigator, ...(observer ? [observer] : [])]);
+      setCurrentRoles(newRoles);
+      setNextEngineers([newQueue[1] || newQueue[0]]); // Update visual queue
+
+      console.log(`Skipped ${currentDriver}, now ${newDriver} is driving`);
+      return newQueue;
+    });
+  };
+
   const openSettings = () => setSettingsOpen(true);
   const closeSettings = () => setSettingsOpen(false);
   const toggleSound = () => setSoundEnabled((prev) => !prev);
@@ -245,7 +274,8 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     assignRoles,
     setCurrentRoles,
     driverQueue,
-    setDriverQueue
+    setDriverQueue,
+    skipToNext
   };
 
   return (
@@ -255,7 +285,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   );
 }
 
- // Helper to assign roles
+// Helper to assign roles
 export const assignRoles = (
   team: string[],
   lastDriver: string | null = null

@@ -29,7 +29,6 @@ export default function SessionController() {
     setLastDriver,
     setCurrentRoles,
     setDriverQueue,
-    nextEngineers
   } = useSessionContext();
 
   const handleTimeUp = () => {
